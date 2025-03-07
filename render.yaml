@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: nextgem-management
+    env: node
+    buildCommand: yarn install && yarn build:render
+    startCommand: yarn start:render
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_SKIP_TYPECHECKING
+        value: "1"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: NEXT_DISABLE_STATIC_GENERATION
+        value: "1"
+      - key: NEXT_STATIC_GENERATION
+        value: "0"
+      - key: NEXT_MINIMAL_BUILD
+        value: "1"
+      - key: NEXT_PUBLIC_RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: nextgem-management
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: MONGODB_URI
+        sync: false # This will prompt you to enter the value during deployment
+    autoDeploy: true 
